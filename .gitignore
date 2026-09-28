@@ -1,0 +1,16 @@
+# Android Studio y Gradle
+.gradle/
+.idea/
+**/.gradle/
+**/.idea/
+**/build/
+**/local.properties
+*.iml
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos locales de firma
+*.jks
+*.keystore
