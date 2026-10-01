@@ -1,0 +1,24 @@
+@page { size: A4; margin: 17mm 16mm 18mm; }
+* { box-sizing: border-box; }
+body { margin: 0; color: #214137; background: #edf4ef; font: 10.5pt/1.48 Arial, sans-serif; }
+h1 { margin: 0 0 8mm; font-size: 27pt; line-height: 1.05; letter-spacing: -0.7pt; }
+h2 { margin: 8mm 0 3mm; padding-top: 2mm; color: #356b55; font-size: 15pt; break-after: avoid; }
+h3 { margin: 5mm 0 2mm; font-size: 11.5pt; break-after: avoid; }
+p { margin: 0 0 3mm; }
+ol, ul { margin: 2mm 0 4mm; padding-left: 6mm; }
+li { margin: 1.2mm 0; }
+code { padding: 0.4mm 1mm; border-radius: 2mm; background: #cfe3d6; font: 9.3pt Consolas, monospace; }
+pre { margin: 3mm 0 5mm; padding: 4mm; border: 0.3mm solid #b9cdbf; border-radius: 3mm; background: #e4efe7; white-space: pre-wrap; font: 9pt/1.45 Consolas, monospace; }
+.brand { display: inline-block; margin-bottom: 7mm; padding: 2mm 3mm; border-radius: 2mm; color: #edf4ef; background: #214137; font-weight: 700; letter-spacing: 0.8pt; }
+.lead { color: #68736f; font-size: 12pt; }
+.notice { margin: 5mm 0; padding: 4mm; border-left: 1.2mm solid #356b55; background: #cfe3d6; }
+.warning { border-left-color: #956a61; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; margin: 4mm 0; }
+.card { padding: 4mm; border: 0.3mm solid #b9cdbf; border-radius: 6mm; background: rgba(237,244,239,.92); box-shadow: 0 1.5mm 4mm rgba(33,65,55,.10); break-inside: avoid; }
+.card h3 { margin-top: 0; }
+.page-break { break-before: page; }
+.footer-note { margin-top: 8mm; color: #68736f; font-size: 8.5pt; }
+a { color: #356b55; }
+table { width: 100%; border-collapse: collapse; margin: 3mm 0 5mm; }
+th, td { padding: 2.5mm; border-bottom: 0.3mm solid #dde2de; text-align: left; vertical-align: top; }
+th { color: #356b55; }

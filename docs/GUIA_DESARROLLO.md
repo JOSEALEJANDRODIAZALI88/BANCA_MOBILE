@@ -51,6 +51,10 @@ Usuario: demo@nexo.com
 Clave:   Nexo2026
 ```
 
+Si el emulador o dispositivo tiene biometria registrada, el dialogo oficial de Android aparece automaticamente al abrir el acceso. Solo aparece una vez por entrada; al cancelarlo permanecen disponibles **Entrar con biometria** y las credenciales demo. Se desactiva desde **Mas > Config. > Solicitar al iniciar**. Este mecanismo solo desbloquea la demostracion local; no sustituye autenticacion bancaria ni cifra la base Room.
+
+En **Mas > Config.** tambien puedes elegir el tema **Sistema**, **Claro** u **Oscuro** y decidir si el saldo debe mostrarse al entrar a Inicio. Estas preferencias se guardan en DataStore y no requieren una migracion Room.
+
 ## 5. Compilar y probar desde PowerShell
 
 Compilacion de depuracion:
@@ -74,7 +78,7 @@ Analisis estatico:
 Verificacion completa recomendada antes de entregar:
 
 ```powershell
-.\gradlew.bat clean :app:testDebugUnitTest :app:lintDebug :app:assembleDebug
+.\gradlew.bat clean :app:testDebugUnitTest :app:lintDebug :app:generarApkDemo
 ```
 
 ## 6. Generar el APK de entrega
@@ -92,6 +96,16 @@ banca_movile/distribucion/Nexo-Demo.apk
 ```
 
 Este APK usa una firma de depuracion. Sirve para clases y demostraciones, pero no debe publicarse como una aplicacion bancaria de produccion.
+
+### Regenerar los manuales PDF
+
+Las fuentes editables estan en `docs/src`. Desde la raiz del repositorio ejecuta:
+
+```powershell
+.\banca_movile\scripts\generar-documentos.ps1
+```
+
+El script usa Microsoft Edge en modo headless y reemplaza los tres PDF de `docs`. Revisa los PDF generados antes de entregarlos.
 
 ## 7. Instalar con ADB
 
@@ -115,13 +129,15 @@ adb shell am start -n com.nexo.banca.demo/com.nexo.banca.MainActivity
 
 ## 8. Restablecer datos ficticios
 
-El saldo, las facturas, los movimientos y las opciones de tarjeta se guardan en SQLite mediante Room. Para volver al estado inicial:
+El saldo, las facturas, los movimientos y las opciones de tarjeta se guardan en SQLite mediante Room. La biometria inicial, el tema y la visibilidad inicial del saldo se guardan por separado mediante DataStore. Para volver todo al estado inicial:
 
 ```powershell
 adb shell pm clear com.nexo.banca.demo
 ```
 
 Tambien puedes ir a **Ajustes > Aplicaciones > Nexo Demo > Almacenamiento > Borrar datos**. Al abrirla otra vez, la base de datos se crea de nuevo.
+
+Haz este restablecimiento despues de cambiar `domain/DemoData.kt` o los datos sembrados; Room conserva instalaciones anteriores y no reemplaza una cuenta existente.
 
 ## 9. Solucion de problemas
 
@@ -167,6 +183,9 @@ adb install ".\app\build\outputs\apk\debug\app-debug.apk"
 - Las operaciones de saldo se realizan dentro de transacciones Room.
 - El boton de transferencia se bloquea mientras una operacion esta en curso para evitar duplicados.
 - Las cuentas QR con caracteres no numericos se rechazan.
-- Las reglas de credenciales, cuentas, transferencias y ahorro tienen pruebas unitarias.
+- Las reglas de credenciales, cuentas, transferencias, ahorro, tipos de pago y calculo de prestamos tienen pruebas unitarias.
+- Pagos permite alternar entre servicios y creditos; ambos se guardan como movimientos atomicos.
+- El prompt biometrico usa AndroidX Biometric, espera a que DataStore cargue y se abre una sola vez por entrada cuando la preferencia esta activa.
+- Los temas Sistema, Claro y Oscuro usan colores semanticos para mantener contraste en toda la interfaz glass.
 - `lintDebug` comprueba compatibilidad desde Android API 24.
 - Las capturas de pantalla y copias de seguridad permanecen desactivadas para la demostracion.

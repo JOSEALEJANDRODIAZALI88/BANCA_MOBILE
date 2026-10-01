@@ -1,6 +1,6 @@
 # Nexo Banca Demo
 
-Aplicacion educativa de banca movil para Android con Kotlin, Jetpack Compose, SQLite/Room y transferencias mediante QR.
+Aplicacion educativa de banca movil para Android con Kotlin, Jetpack Compose, SQLite/Room, acceso biometrico y transferencias mediante QR.
 
 > No se conecta a un banco ni mueve dinero real. Todos los datos y comprobantes son ficticios.
 
@@ -13,7 +13,8 @@ banca mobile/
 |       |-- app/               Codigo y recursos Android
 |       |-- gradle/            Configuracion de compilacion
 |       `-- gradlew.bat        Generador del APK en Windows
-|-- docs/                      Manuales finales en PDF
+|-- docs/                      Manuales PDF y sus fuentes HTML
+|-- banca_movile/scripts/      Generador local de los manuales PDF
 `-- README.md
 ```
 
@@ -45,6 +46,12 @@ Consulta `docs/GUIA_DESARROLLO.md` para instrucciones detalladas y solucion de p
 - `docs/MANUAL_USUARIO_NEXO.pdf`: utilizar la aplicacion, SQLite y los codigos QR.
 - `docs/MANUAL_APK_EJECUCION_GITHUB.pdf`: ejecutar el proyecto, generar el APK y publicarlo en GitHub.
 - `docs/GUIA_DESARROLLO.md`: preparar el entorno, compilar, probar, instalar y diagnosticar errores.
+
+Toda modificacion visible debe actualizar `README.md`, `docs/GUIA_DESARROLLO.md` y las fuentes de `docs/src`, y despues regenerar los tres PDF desde la raiz:
+
+```powershell
+.\banca_movile\scripts\generar-documentos.ps1
+```
 
 ## Generar el APK rapidamente
 
@@ -90,11 +97,15 @@ Clave:   Nexo2026
 
 ## Funciones
 
-- Base SQLite local para saldo, movimientos, facturas, ahorro y tarjeta.
-- Transferencias y pagos simulados con actualizacion atomica.
+- Base SQLite local para saldo, movimientos, servicios, creditos, ahorro y tarjeta.
+- Transferencias y pagos atomicos organizados en pestañas de Servicios y Creditos.
+- Tercera pestaña de Calculadora con una cuota fija educativa estimada.
+- Solicitud biometrica automatica al abrir el acceso cuando el dispositivo la admite, con credenciales demo como alternativa permanente.
+- Pantalla Configuracion con biometria inicial, visibilidad inicial del saldo y tema Sistema, Claro u Oscuro, persistidos mediante DataStore.
+- Navegacion principal en Inicio, Movimientos y Mas, basada en las referencias de `imagenes de referencia`.
 - Generacion, lectura y validacion de QR Nexo.
 - Persistencia despues de cerrar la aplicacion.
-- Interfaz de alto contraste en verde petroleo, menta y coral.
+- Interfaz glass moderna adaptable a modo claro y oscuro, con verdes suaves, paneles translucidos, sombras discretas y bordes ampliamente redondeados.
 - Capturas y copias de seguridad desactivadas.
 
 ## APK
@@ -109,4 +120,4 @@ Para recuperar el saldo y movimientos iniciales, elimina los datos de **Nexo Dem
 adb shell pm clear com.nexo.banca.demo
 ```
 
-Al volver a abrir la aplicacion, Room creara nuevamente los datos ficticios.
+Al volver a abrir la aplicacion, Room creara nuevamente los datos ficticios centralizados (titular, cuenta, saldo, movimientos, servicios y creditos).

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>Ejecutar y publicar Nexo</title><link rel="stylesheet" href="manual.css"></head>
+<body>
+<div class="brand">NEXO DEMO</div>
+<h1>Ejecutar, generar el APK y publicar</h1>
+<p class="lead">Guia de entrega para el proyecto Android, el APK de demostracion y GitHub.</p>
+<div class="notice warning">Nexo es una demostracion local. No se conecta a bancos, no paga obligaciones reales y no concede prestamos.</div>
+
+<h2>1. Abrir el proyecto correcto</h2>
+<pre>banca mobile/
+|-- README.md
+|-- docs/                  PDF y fuentes HTML
+`-- banca_movile/
+    |-- android-app/       Proyecto Gradle
+    |-- distribucion/      APK de entrega
+    `-- scripts/           Generador de PDF</pre>
+<p>Abre exactamente <code>banca_movile/android-app</code> en Android Studio. No abras solo <code>app</code> ni la carpeta exterior.</p>
+
+<h2>2. Requisitos</h2>
+<ul>
+  <li>Android Studio actualizado, Android SDK 37 y JDK 17 o superior.</li>
+  <li>Android 7.0 (API 24) o superior para ejecutar la app.</li>
+  <li>Internet durante la primera sincronizacion de dependencias.</li>
+  <li>Git solo si vas a publicar el proyecto.</li>
+</ul>
+
+<h2>3. Ejecutar desde Android Studio</h2>
+<ol>
+  <li>Selecciona <strong>Open</strong> y abre <code>banca_movile/android-app</code>.</li>
+  <li>Espera a que termine Gradle Sync.</li>
+  <li>Inicia un emulador o conecta un dispositivo con depuracion USB.</li>
+  <li>Selecciona la configuracion <strong>app</strong> y pulsa <strong>Run</strong>.</li>
+</ol>
+<p>Credenciales: <code>demo@nexo.com</code> / <code>Nexo2026</code>.</p>
+
+<div class="page-break"></div>
+<div class="brand">COMPILACION</div>
+<h1>Verificar y entregar</h1>
+
+<h2>4. Comandos principales</h2>
+<p>Ejecuta los comandos desde <code>banca_movile/android-app</code>:</p>
+<pre>.\gradlew.bat :app:testDebugUnitTest
+.\gradlew.bat :app:lintDebug
+.\gradlew.bat :app:assembleDebug</pre>
+<p>Verificacion completa:</p>
+<pre>.\gradlew.bat clean :app:testDebugUnitTest :app:lintDebug :app:generarApkDemo</pre>
+
+<h2>5. Crear el APK de entrega</h2>
+<pre>.\gradlew.bat :app:generarApkDemo</pre>
+<p>El resultado queda en <code>banca_movile/distribucion/Nexo-Demo.apk</code>. Es un APK firmado para depuracion, adecuado solo para clases y demostraciones.</p>
+
+<h2>6. Instalar mediante ADB</h2>
+<pre>adb devices
+adb install -r ".\app\build\outputs\apk\debug\app-debug.apk"
+adb shell am start -n com.nexo.banca.demo/com.nexo.banca.MainActivity</pre>
+
+<h2>7. Regenerar los manuales</h2>
+<p>Todo cambio visible debe reflejarse en README, la guia de desarrollo y los archivos afectados de <code>docs/src</code>. Luego, desde la raiz del repositorio:</p>
+<pre>.\banca_movile\scripts\generar-documentos.ps1</pre>
+<p>El script usa Microsoft Edge en modo headless y reemplaza los tres PDF de <code>docs</code>.</p>
+
+<div class="page-break"></div>
+<div class="brand">GITHUB</div>
+<h1>Publicar codigo y APK</h1>
+
+<h2>8. Preparar Git</h2>
+<p>El repositorio debe incluir codigo y documentacion. No agregues <code>build/</code>, <code>.gradle/</code>, <code>.idea/</code>, <code>local.properties</code>, APK, secretos o claves de firma.</p>
+<pre>git status
+git add .
+git commit -m "Actualiza Nexo Demo"
+git branch -M main
+git remote add origin https://github.com/TU_USUARIO/nexo-banca-demo.git
+git push -u origin main</pre>
+<p>Si el repositorio ya tiene un remoto, revisalo con <code>git remote -v</code>. No guardes credenciales dentro del proyecto.</p>
+
+<h2>9. Publicar el APK como Release</h2>
+<ol>
+  <li>Genera <code>banca_movile/distribucion/Nexo-Demo.apk</code>.</li>
+  <li>En GitHub abre <strong>Releases &gt; Draft a new release</strong>.</li>
+  <li>Crea una etiqueta, por ejemplo <code>v2.0-demo</code>.</li>
+  <li>Describe biometria automatica configurable, temas Sistema/Claro/Oscuro, transferencias QR, navegacion Inicio/Movimientos/Mas y las pesta&ntilde;as de servicios, creditos y calculadora.</li>
+  <li>Adjunta el APK y <code>docs/GUIA_INSTALACION_APK.pdf</code>.</li>
+  <li>Publica la Release. No agregues el APK al historial Git.</li>
+</ol>
+
+<h2>10. Diagnostico rapido</h2>
+<table>
+  <tr><th>Problema</th><th>Accion</th></tr>
+  <tr><td>Gradle Sync falla</td><td>Comprueba Internet, SDK 37 y el JDK configurado en Android Studio.</td></tr>
+  <tr><td>No aparece el APK</td><td>Busca <code>BUILD SUCCESSFUL</code> y repite <code>:app:generarApkDemo</code>.</td></tr>
+  <tr><td>El telefono no aparece</td><td>Activa depuracion USB, acepta la clave RSA y ejecuta <code>adb devices</code>.</td></tr>
+  <tr><td>Conflicto al instalar</td><td>Desinstala la copia anterior; recuerda que esto elimina sus datos locales.</td></tr>
+</table>
+</body></html>

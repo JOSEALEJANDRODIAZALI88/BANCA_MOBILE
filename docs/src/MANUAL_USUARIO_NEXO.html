@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>Manual de Nexo Demo</title><link rel="stylesheet" href="manual.css"></head>
+<body>
+<div class="brand">NEXO DEMO</div>
+<h1>Manual de uso</h1>
+<p class="lead">Saldo, transferencias QR, pagos simulados y calculos educativos en una experiencia local.</p>
+<div class="notice warning"><strong>No mueve dinero real.</strong> Todos los saldos, servicios, creditos, referencias y comprobantes son ficticios. La aplicacion funciona sin Internet.</div>
+
+<h2>Iniciar sesion</h2>
+<p>Si el telefono tiene huella o rostro compatible, el dialogo oficial de Android aparece automaticamente al abrir el acceso. Si lo cancelas, puedes pulsar <strong>Entrar con biometria</strong> o usar <code>demo@nexo.com</code> y <code>Nexo2026</code>. Ambos accesos forman parte de la demostracion y no representan autenticacion bancaria real.</p>
+
+<h2>Inicio</h2>
+<p>Muestra el saldo local, acciones de cobro, pago y transferencia, accesos secundarios, movimientos recientes y la meta de ahorro. <strong>Ocultar</strong> tapa el saldo visualmente.</p>
+<p>La barra inferior organiza la aplicacion en <strong>Inicio</strong>, <strong>Movimientos</strong> y <strong>Mas</strong>. Mas contiene la cuadricula de pagos, cobros, tarjetas, perfil y herramientas.</p>
+<p>La interfaz usa una estetica glass verde: superficies suaves, transparencias moderadas, sombras ligeras y bordes redondeados sin sacrificar legibilidad.</p>
+
+<h2>Configuracion</h2>
+<p>En <strong>Mas &gt; Config.</strong> puedes desactivar la solicitud biometrica automatica, ocultar el saldo al entrar y elegir el tema <strong>Sistema</strong>, <strong>Claro</strong> u <strong>Oscuro</strong>. Los cambios de tema se aplican inmediatamente y las preferencias se conservan al cerrar la app.</p>
+<p>Desactivar la solicitud inicial no elimina el boton biometrico manual. Nexo nunca recibe ni almacena la huella o el rostro: Android solo informa si la comprobacion tuvo exito.</p>
+
+<div class="page-break"></div>
+<h2>Transferir</h2>
+<ol>
+  <li>Abre <strong>Transferir</strong>.</li>
+  <li>Escribe un nombre ficticio y una cuenta de 6 a 20 digitos, o pulsa <strong>Leer QR</strong>.</li>
+  <li>Introduce entre COP 1 y COP 5.000.000 sin superar el saldo.</li>
+  <li>Pulsa <strong>Revisar simulacion</strong>, comprueba los datos y confirma.</li>
+</ol>
+<p>La operacion actualiza el saldo, crea un movimiento y genera una referencia local.</p>
+
+<h2>Recibir y leer QR</h2>
+<div class="grid">
+  <div class="card"><h3>Mostrar</h3><p>Desde Inicio pulsa <strong>Recibir</strong>. Muestra el codigo o comparte los datos ficticios.</p></div>
+  <div class="card"><h3>Leer</h3><p>Desde Transferir pulsa <strong>Leer QR</strong>, permite la camara y revisa siempre los datos cargados.</p></div>
+</div>
+<p>Solo se aceptan codigos <code>nexo://transfer</code> o <code>nexo://receive</code>. Leer un QR nunca confirma automaticamente.</p>
+
+<div class="page-break"></div>
+<div class="brand">PAGOS</div>
+<h1>Servicios y creditos</h1>
+<p class="lead">La pantalla Pagos distribuye cada funcion en tres pesta&ntilde;as: Servicios, Creditos y Calculadora.</p>
+
+<h2>Pagar un servicio</h2>
+<ol>
+  <li>Abre <strong>Pagos</strong> y selecciona <strong>Servicios</strong>.</li>
+  <li>Elige una factura pendiente y pulsa <strong>Pagar</strong>.</li>
+  <li>Revisa el valor y confirma.</li>
+</ol>
+
+<h2>Pagar una cuota de credito</h2>
+<ol>
+  <li>En Pagos selecciona <strong>Creditos</strong>.</li>
+  <li>Elige la cuota personal o de vehiculo.</li>
+  <li>Pulsa <strong>Pagar</strong> y confirma la simulacion.</li>
+</ol>
+
+<div class="notice">Cada pago valido descuenta el saldo, marca el elemento como pagado y registra un movimiento dentro de una sola transaccion local. Si no hay saldo suficiente, no se aplica ningun cambio.</div>
+
+<h2>Calculadora de prestamos</h2>
+<p>En Pagos selecciona la pesta&ntilde;a <strong>Calculadora</strong>. Introduce:</p>
+<ul>
+  <li>Capital entre COP 1 y COP 1.000.000.000.</li>
+  <li>Tasa efectiva anual entre 0% y 100%.</li>
+  <li>Plazo entre 1 y 360 meses.</li>
+</ul>
+<p>El resultado muestra cuota mensual, intereses y total aproximados. No incluye seguros ni comisiones, no se guarda y no representa una oferta o aprobacion de credito.</p>
+
+<h2>Actividad y tarjetas</h2>
+<p><strong>Actividad</strong> permite buscar y filtrar movimientos. En <strong>Perfil &gt; Mis tarjetas</strong> puedes cambiar controles ficticios guardados localmente; no controlan una tarjeta real.</p>
+
+<h2>Restablecer la demo</h2>
+<p>Abre Ajustes de Android &gt; Aplicaciones &gt; Nexo Demo &gt; Almacenamiento &gt; Borrar datos. Al volver a abrir se restauran titular, cuenta, saldo, movimientos, cuatro servicios, dos creditos y preferencias iniciales.</p>
+</body></html>
