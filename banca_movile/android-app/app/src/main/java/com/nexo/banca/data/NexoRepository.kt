@@ -24,7 +24,17 @@ class NexoRepository(private val database: NexoDatabase) {
     val bills = dao.observeBills()
     val cardSettings = dao.observeCardSettings()
 
-    suspend fun initialize() = database.withTransaction {
+    suspend fun initialize() = database.withTransaction { seedDemoData() }
+
+    suspend fun resetDemo() = database.withTransaction {
+        dao.deleteMovements()
+        dao.deleteBills()
+        dao.deleteCardSettings()
+        dao.deleteAccounts()
+        seedDemoData()
+    }
+
+    private suspend fun seedDemoData() {
         if (dao.accountCount() == 0) {
             dao.insertAccount(
                 AccountEntity(

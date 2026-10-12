@@ -30,6 +30,9 @@ import com.nexo.banca.ui.theme.Surface
 @Composable
 fun MoreScreen(
     onPayments: () -> Unit,
+    onCredits: () -> Unit,
+    onServices: () -> Unit,
+    onCalculator: () -> Unit,
     onTransfer: () -> Unit,
     onReceive: () -> Unit,
     onCards: () -> Unit,
@@ -48,13 +51,13 @@ fun MoreScreen(
                     NexoSection("PAGOS Y COBROS", "Operaciones")
                     FeatureRow(
                         Triple("P", "Pagos", onPayments),
-                        Triple("C", "Creditos", onPayments),
+                        Triple("C", "Creditos", onCredits),
                         Triple("QR", "Cobrar", onReceive)
                     )
                     FeatureRow(
                         Triple("T", "Transferir", onTransfer),
-                        Triple("S", "Servicios", onPayments),
-                        Triple("$", "Calculadora", onPayments)
+                        Triple("S", "Servicios", onServices),
+                        Triple("$", "Calculadora", onCalculator)
                     )
                 }
             }

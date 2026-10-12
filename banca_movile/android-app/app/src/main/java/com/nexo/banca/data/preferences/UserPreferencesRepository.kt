@@ -60,4 +60,8 @@ class UserPreferencesRepository(private val context: Context) {
     suspend fun setShowBalanceOnHome(enabled: Boolean) {
         context.nexoPreferences.edit { it[Keys.showBalanceOnHome] = enabled }
     }
+
+    suspend fun reset() {
+        context.nexoPreferences.edit { it.clear() }
+    }
 }

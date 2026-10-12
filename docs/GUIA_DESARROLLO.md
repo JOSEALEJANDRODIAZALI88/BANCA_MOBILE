@@ -53,7 +53,9 @@ Clave:   Nexo2026
 
 Si el emulador o dispositivo tiene biometria registrada, el dialogo oficial de Android aparece automaticamente al abrir el acceso. Solo aparece una vez por entrada; al cancelarlo permanecen disponibles **Entrar con biometria** y las credenciales demo. Se desactiva desde **Mas > Config. > Solicitar al iniciar**. Este mecanismo solo desbloquea la demostracion local; no sustituye autenticacion bancaria ni cifra la base Room.
 
-En **Mas > Config.** tambien puedes elegir el tema **Sistema**, **Claro** u **Oscuro** y decidir si el saldo debe mostrarse al entrar a Inicio. Estas preferencias se guardan en DataStore y no requieren una migracion Room.
+Desde el engranaje superior derecho de Inicio o **Mas > Config.** puedes elegir el tema **Sistema**, **Claro** u **Oscuro** y decidir si el saldo debe mostrarse al entrar a Inicio. Estas preferencias se guardan en DataStore y no requieren una migracion Room. Configuracion tambien enlaza Perfil y Tarjetas, muestra la version desde BuildConfig y permite restablecer la demo con confirmacion.
+
+Los botones **Servicios**, **Creditos** y **Calculadora** de Mas abren solo su contenido, sin repetir las tres pestañas. **Pagos** mantiene las tres como vista general. El acceso Servicios de Inicio tambien es directo. El historial de navegacion permite regresar desde Tarjetas a Perfil y despues a Configuracion.
 
 ## 5. Compilar y probar desde PowerShell
 
@@ -131,6 +133,8 @@ adb shell am start -n com.nexo.banca.demo/com.nexo.banca.MainActivity
 
 El saldo, las facturas, los movimientos y las opciones de tarjeta se guardan en SQLite mediante Room. La biometria inicial, el tema y la visibilidad inicial del saldo se guardan por separado mediante DataStore. Para volver todo al estado inicial:
 
+Usa **Configuracion > Restablecer demostracion** y confirma. El repositorio elimina y vuelve a sembrar los datos bancarios en una transaccion Room; despues DataStore recupera sus valores predeterminados. Tambien puedes borrar los datos desde Android:
+
 ```powershell
 adb shell pm clear com.nexo.banca.demo
 ```
@@ -187,5 +191,7 @@ adb install ".\app\build\outputs\apk\debug\app-debug.apk"
 - Pagos permite alternar entre servicios y creditos; ambos se guardan como movimientos atomicos.
 - El prompt biometrico usa AndroidX Biometric, espera a que DataStore cargue y se abre una sola vez por entrada cuando la preferencia esta activa.
 - Los temas Sistema, Claro y Oscuro usan colores semanticos para mantener contraste en toda la interfaz glass.
+- Los accesos especificos de pagos no muestran el selector general. Revisa Servicios, Creditos y Calculadora desde Mas y el regreso Configuracion > Perfil > Tarjetas en un dispositivo.
+- Restablecer requiere confirmacion; comprueba que Cancelar conserve las operaciones y que confirmar restaure datos bancarios y preferencias.
 - `lintDebug` comprueba compatibilidad desde Android API 24.
 - Las capturas de pantalla y copias de seguridad permanecen desactivadas para la demostracion.

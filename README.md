@@ -102,6 +102,8 @@ Clave:   Nexo2026
 - Tercera pestaña de Calculadora con una cuota fija educativa estimada.
 - Solicitud biometrica automatica al abrir el acceso cuando el dispositivo la admite, con credenciales demo como alternativa permanente.
 - Pantalla Configuracion con biometria inicial, visibilidad inicial del saldo y tema Sistema, Claro u Oscuro, persistidos mediante DataStore.
+- Engranaje en la esquina superior derecha de Inicio para abrir Configuracion; incluye Perfil, Tarjetas, version y restablecimiento confirmado.
+- Los accesos Servicios, Creditos y Calculadora de Mas abren solo su seccion. Pagos conserva la vista general con las tres pestañas.
 - Navegacion principal en Inicio, Movimientos y Mas, basada en las referencias de `imagenes de referencia`.
 - Generacion, lectura y validacion de QR Nexo.
 - Persistencia despues de cerrar la aplicacion.
@@ -114,7 +116,9 @@ El APK de depuracion es para demostraciones y clases. Una aplicacion bancaria re
 
 ## Restablecer la demostracion
 
-Para recuperar el saldo y movimientos iniciales, elimina los datos de **Nexo Demo** desde los ajustes de Android o ejecuta:
+Desde el engranaje de Inicio o **Mas > Config.**, pulsa **Restablecer demostracion** y confirma. Se restauran saldo, ahorro, movimientos, pagos, tarjeta y preferencias (tema Sistema, biometria y saldo visibles activados).
+
+Tambien puedes eliminar los datos de **Nexo Demo** desde los ajustes de Android o ejecutar:
 
 ```powershell
 adb shell pm clear com.nexo.banca.demo

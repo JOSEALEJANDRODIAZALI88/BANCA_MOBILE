@@ -49,28 +49,52 @@ private enum class PaymentTab(val label: String, val type: PaymentType? = null) 
     CALCULATOR("Calculadora")
 }
 
+enum class PaymentDestination {
+    OVERVIEW,
+    SERVICES,
+    CREDITS,
+    CALCULATOR
+}
+
 @Composable
-internal fun PaymentsScreen(payments: List<PaymentUiModel>, onPay: (String) -> Unit) {
-    var selectedTabName by rememberSaveable { mutableStateOf(PaymentTab.SERVICES.name) }
+internal fun PaymentsScreen(
+    payments: List<PaymentUiModel>,
+    destination: PaymentDestination,
+    onPay: (String) -> Unit
+) {
+    val initialTab = when (destination) {
+        PaymentDestination.OVERVIEW, PaymentDestination.SERVICES -> PaymentTab.SERVICES
+        PaymentDestination.CREDITS -> PaymentTab.CREDITS
+        PaymentDestination.CALCULATOR -> PaymentTab.CALCULATOR
+    }
+    var selectedTabName by rememberSaveable(destination.name) { mutableStateOf(initialTab.name) }
     var pending by remember { mutableStateOf<PaymentUiModel?>(null) }
     val selectedTab = PaymentTab.valueOf(selectedTabName)
     val visiblePayments = payments.filter { it.type == selectedTab.type }
+    val title = when (destination) {
+        PaymentDestination.OVERVIEW -> "Pagos"
+        PaymentDestination.SERVICES -> "Servicios"
+        PaymentDestination.CREDITS -> "Creditos"
+        PaymentDestination.CALCULATOR -> "Calculadora"
+    }
 
     Column(Modifier.fillMaxSize()) {
-        NexoHeader("Pagos", "SERVICIOS, CREDITOS Y PRESTAMOS")
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 10.dp).background(AccentSoft.copy(alpha = .85f), RoundedCornerShape(20.dp)).padding(5.dp),
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            PaymentTab.entries.forEach { tab ->
-                TextButton(
-                    onClick = { selectedTabName = tab.name },
-                    modifier = Modifier.weight(1f).background(
-                        if (selectedTab == tab) Accent else Color.Transparent,
-                        RoundedCornerShape(16.dp)
-                    )
-                ) {
-                    Text(tab.label, color = if (selectedTab == tab) com.nexo.banca.ui.theme.Surface else Ink, fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
+        NexoHeader(title, if (destination == PaymentDestination.OVERVIEW) "SERVICIOS, CREDITOS Y PRESTAMOS" else "ACCESO DIRECTO")
+        if (destination == PaymentDestination.OVERVIEW) {
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 10.dp).background(AccentSoft.copy(alpha = .85f), RoundedCornerShape(20.dp)).padding(5.dp),
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                PaymentTab.entries.forEach { tab ->
+                    TextButton(
+                        onClick = { selectedTabName = tab.name },
+                        modifier = Modifier.weight(1f).background(
+                            if (selectedTab == tab) Accent else Color.Transparent,
+                            RoundedCornerShape(16.dp)
+                        )
+                    ) {
+                        Text(tab.label, color = if (selectedTab == tab) com.nexo.banca.ui.theme.Surface else Ink, fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
+                    }
                 }
             }
         }

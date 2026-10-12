@@ -73,4 +73,17 @@ class NexoViewModel(application: Application) : AndroidViewModel(application) {
     fun setShowBalanceOnHome(enabled: Boolean) {
         viewModelScope.launch { preferencesRepository.setShowBalanceOnHome(enabled) }
     }
+
+    fun resetDemo(complete: (String) -> Unit) {
+        viewModelScope.launch {
+            val message = runCatching {
+                repository.resetDemo()
+                preferencesRepository.reset()
+            }.fold(
+                onSuccess = { "Demostracion restablecida" },
+                onFailure = { "No fue posible restablecer la demostracion" }
+            )
+            complete(message)
+        }
+    }
 }

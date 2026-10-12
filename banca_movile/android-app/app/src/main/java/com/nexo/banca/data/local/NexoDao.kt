@@ -59,4 +59,16 @@ interface NexoDao {
 
     @Query("UPDATE card_settings SET contactless = :value WHERE id = 1")
     suspend fun updateCardContactless(value: Boolean)
+
+    @Query("DELETE FROM movements")
+    suspend fun deleteMovements()
+
+    @Query("DELETE FROM bills")
+    suspend fun deleteBills()
+
+    @Query("DELETE FROM card_settings")
+    suspend fun deleteCardSettings()
+
+    @Query("DELETE FROM accounts")
+    suspend fun deleteAccounts()
 }

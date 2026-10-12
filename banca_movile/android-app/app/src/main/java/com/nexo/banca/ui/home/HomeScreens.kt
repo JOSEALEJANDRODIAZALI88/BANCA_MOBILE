@@ -34,6 +34,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nexo.banca.data.local.MovementEntity
@@ -59,8 +61,10 @@ fun HomeScreen(
     onTransfer: () -> Unit,
     onReceive: () -> Unit,
     onPayments: () -> Unit,
+    onServices: () -> Unit,
     onActivity: () -> Unit,
     onMore: () -> Unit,
+    onSettings: () -> Unit,
     onAddSavings: () -> Unit,
     showBalanceInitially: Boolean = true
 ) {
@@ -78,7 +82,12 @@ fun HomeScreen(
             ) {
                 Text("Menu", color = Accent, fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
                 Text("Hola $firstName", modifier = Modifier.weight(1f), color = Ink, fontSize = 23.sp, fontWeight = FontWeight.SemiBold, textAlign = TextAlign.Center)
-                Text("Demo", color = Accent, fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
+                TextButton(
+                    onClick = onSettings,
+                    modifier = Modifier.semantics { contentDescription = "Abrir configuracion" }
+                ) {
+                    Text("\u2699", color = Accent, fontSize = 22.sp, fontWeight = FontWeight.SemiBold)
+                }
             }
         }
         item {
@@ -108,7 +117,7 @@ fun HomeScreen(
                     }
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         MinimalAction("QR", Modifier.weight(1f), onReceive)
-                        MinimalAction("Servicios", Modifier.weight(1f), onPayments)
+                        MinimalAction("Servicios", Modifier.weight(1f), onServices)
                         MinimalAction("Enviar", Modifier.weight(1f), onTransfer)
                         MinimalAction("Mas", Modifier.weight(1f), onMore)
                     }

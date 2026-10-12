@@ -39,6 +39,7 @@ import com.nexo.banca.ui.home.ActivityScreen
 import com.nexo.banca.ui.home.HomeScreen
 import com.nexo.banca.ui.more.MoreScreen
 import com.nexo.banca.ui.payments.PaymentsScreen
+import com.nexo.banca.ui.payments.PaymentDestination
 import com.nexo.banca.ui.profile.CardsScreen
 import com.nexo.banca.ui.profile.ProfileScreen
 import com.nexo.banca.ui.qr.ReceiveMoneyScreen
@@ -82,21 +83,33 @@ fun NexoRoot(state: NexoUiState, viewModel: NexoViewModel) {
 private fun NexoApp(state: NexoUiState, viewModel: NexoViewModel, onLogout: () -> Unit) {
     val context = LocalContext.current
     var screenName by rememberSaveable { mutableStateOf(Screen.HOME.name) }
-    var returnScreenName by rememberSaveable { mutableStateOf(Screen.HOME.name) }
+    var backStack by rememberSaveable { mutableStateOf(arrayListOf<String>()) }
+    var paymentDestinationName by rememberSaveable { mutableStateOf(PaymentDestination.OVERVIEW.name) }
     var scannedTransfer by remember { mutableStateOf<QrTransfer?>(null) }
     val screen = Screen.entries.firstOrNull { it.name == screenName } ?: Screen.HOME
     val notify: (String) -> Unit = { Toast.makeText(context, it, Toast.LENGTH_LONG).show() }
     val navigate: (Screen) -> Unit = { target ->
-        returnScreenName = screenName
+        backStack = ArrayList(backStack + screenName)
         screenName = target.name
+    }
+    val goBack: () -> Unit = {
+        screenName = backStack.lastOrNull() ?: Screen.HOME.name
+        backStack = ArrayList(backStack.dropLast(1))
+    }
+    val openTab: (Screen) -> Unit = { target ->
+        backStack = arrayListOf()
+        screenName = target.name
+    }
+    val navigateToPayments: (PaymentDestination) -> Unit = { destination ->
+        paymentDestinationName = destination.name
+        navigate(Screen.PAYMENTS)
     }
     val scanner = rememberLauncherForActivityResult(ScanContract()) { result ->
         val transfer = result.contents?.let(QrTransferCodec::decode)
         if (transfer == null) notify(if (result.contents == null) "Lectura cancelada" else "El QR no pertenece a Nexo o contiene datos invalidos")
         else {
             scannedTransfer = transfer
-            returnScreenName = Screen.HOME.name
-            screenName = Screen.TRANSFER.name
+            if (screen != Screen.TRANSFER) navigate(Screen.TRANSFER)
             notify("Datos cargados. Revisa antes de confirmar")
         }
     }
@@ -105,7 +118,7 @@ private fun NexoApp(state: NexoUiState, viewModel: NexoViewModel, onLogout: () -
     }
 
     BackHandler(screen !in tabs || screen != Screen.HOME) {
-        screenName = if (screen in tabs) Screen.HOME.name else returnScreenName
+        if (screen in tabs) openTab(Screen.HOME) else goBack()
     }
 
     Scaffold(
@@ -119,7 +132,7 @@ private fun NexoApp(state: NexoUiState, viewModel: NexoViewModel, onLogout: () -
                 tabs.forEach { tab ->
                     NavigationBarItem(
                         selected = screen == tab,
-                        onClick = { screenName = tab.name },
+                        onClick = { openTab(tab) },
                         icon = { NavSymbol(tab.symbol, screen == tab) },
                         label = { Text(tab.label, fontSize = 12.sp) }
                     )
@@ -133,15 +146,20 @@ private fun NexoApp(state: NexoUiState, viewModel: NexoViewModel, onLogout: () -
                     state = state,
                     onTransfer = { navigate(Screen.TRANSFER) },
                     onReceive = { navigate(Screen.RECEIVE) },
-                    onPayments = { navigate(Screen.PAYMENTS) },
-                    onActivity = { screenName = Screen.ACTIVITY.name },
-                    onMore = { screenName = Screen.MORE.name },
+                    onPayments = { navigateToPayments(PaymentDestination.OVERVIEW) },
+                    onServices = { navigateToPayments(PaymentDestination.SERVICES) },
+                    onActivity = { openTab(Screen.ACTIVITY) },
+                    onMore = { openTab(Screen.MORE) },
+                    onSettings = { navigate(Screen.SETTINGS) },
                     onAddSavings = { viewModel.addSavings { notify(it.message()) } },
                     showBalanceInitially = state.preferences.showBalanceOnHome
                 )
                 Screen.ACTIVITY -> ActivityScreen(state.movements)
                 Screen.MORE -> MoreScreen(
-                    onPayments = { navigate(Screen.PAYMENTS) },
+                    onPayments = { navigateToPayments(PaymentDestination.OVERVIEW) },
+                    onCredits = { navigateToPayments(PaymentDestination.CREDITS) },
+                    onServices = { navigateToPayments(PaymentDestination.SERVICES) },
+                    onCalculator = { navigateToPayments(PaymentDestination.CALCULATOR) },
                     onTransfer = { navigate(Screen.TRANSFER) },
                     onReceive = { navigate(Screen.RECEIVE) },
                     onCards = { navigate(Screen.CARDS) },
@@ -149,10 +167,14 @@ private fun NexoApp(state: NexoUiState, viewModel: NexoViewModel, onLogout: () -
                     onSettings = { navigate(Screen.SETTINGS) }
                 )
                 Screen.TRANSFER -> TransferScreen(state.account?.balance ?: 0, scannedTransfer, scanQr) { recipient, account, amount, concept, done -> viewModel.transfer(recipient, account, amount, concept, done) }
-                Screen.PAYMENTS -> PaymentsScreen(state.payments, onPay = { id -> viewModel.payBill(id) { notify(it.message()) } })
+                Screen.PAYMENTS -> PaymentsScreen(
+                    payments = state.payments,
+                    destination = PaymentDestination.entries.firstOrNull { it.name == paymentDestinationName } ?: PaymentDestination.OVERVIEW,
+                    onPay = { id -> viewModel.payBill(id) { notify(it.message()) } }
+                )
                 Screen.PROFILE -> ProfileScreen(state.account, onCards = { navigate(Screen.CARDS) }, onLogout = onLogout)
-                Screen.CARDS -> CardsScreen(state.card, state.account, onBack = { screenName = returnScreenName }, onLockedChange = viewModel::updateCardLocked, onInternationalChange = viewModel::updateCardInternational, onContactlessChange = viewModel::updateCardContactless)
-                Screen.RECEIVE -> ReceiveMoneyScreen(state.account, onBack = { screenName = returnScreenName })
+                Screen.CARDS -> CardsScreen(state.card, state.account, onBack = goBack, onLockedChange = viewModel::updateCardLocked, onInternationalChange = viewModel::updateCardInternational, onContactlessChange = viewModel::updateCardContactless)
+                Screen.RECEIVE -> ReceiveMoneyScreen(state.account, onBack = goBack)
                 Screen.SETTINGS -> SettingsScreen(
                     biometricOnLaunch = state.preferences.biometricOnLaunch,
                     themeMode = state.preferences.themeMode,
@@ -160,7 +182,10 @@ private fun NexoApp(state: NexoUiState, viewModel: NexoViewModel, onLogout: () -
                     onBiometricOnLaunchChange = viewModel::setBiometricOnLaunch,
                     onThemeModeChange = viewModel::setThemeMode,
                     onShowBalanceOnHomeChange = viewModel::setShowBalanceOnHome,
-                    onBack = { screenName = returnScreenName }
+                    onProfile = { navigate(Screen.PROFILE) },
+                    onCards = { navigate(Screen.CARDS) },
+                    onResetDemo = { viewModel.resetDemo(notify) },
+                    onBack = goBack
                 )
             }
         }
