@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Adopción de apertura - Nexo Banca Demo</title>
+  <link rel="stylesheet" href="manual.css">
+  <style>
+    body { background: #fff; font-size: 10pt; line-height: 1.35; }
+    .document-page { break-before: page; }
+    .document-page:first-child { break-before: auto; }
+    h1 { font-size: 25pt; margin-bottom: 5mm; }
+    h2 { margin-top: 5mm; }
+    th, td { padding: 2mm; }
+    pre { break-inside: avoid; margin-bottom: 3mm; padding: 3mm; }
+    tr { break-inside: avoid; }
+    .metadata td:first-child { width: 30%; font-weight: bold; }
+    .footer-note { margin-top: 5mm; }
+    .acceptance h2 { margin-top: 3mm; }
+    .acceptance th, .acceptance td { padding: 1.5mm; }
+  </style>
+</head>
+<body>
+<section class="document-page">
+  <div class="brand">NEXO BANCA DEMO . DOCUMENTACIÓN DEL PROYECTO</div>
+  <h1>Adopción de apertura</h1>
+  <p class="lead">Acta de apertura y plan de adopción de la aplicación educativa de banca móvil.</p>
+  <table class="metadata">
+    <tr><td>Proyecto</td><td>Nexo Banca Demo</td></tr>
+    <tr><td>Documento</td><td>Adopción de apertura . Versión documental 1.0</td></tr>
+    <tr><td>Fecha de elaboración</td><td>14 de octubre de 2026</td></tr>
+    <tr><td>Estado</td><td>Documento base para revisión y adopción por el equipo.</td></tr>
+    <tr><td>Destinatarios</td><td>Equipo de desarrollo, docentes, evaluadores y usuarios de la demostración.</td></tr>
+    <tr><td>Responsable / institución</td><td>Por asignar por el equipo del proyecto.</td></tr>
+  </table>
+  <div class="notice"><strong>Propósito.</strong> Reunir la definición de apertura del proyecto y una ruta práctica para preparar, entregar y adoptar Nexo Demo, con resultados y criterios verificables.</div>
+  <p>Nexo es una aplicación Android local desarrollada con Kotlin, Jetpack Compose, Room/SQLite y DataStore. Permite explorar saldo, movimientos, ahorro, transferencias QR, pagos simulados, tarjetas y preferencias.</p>
+  <p><strong>Alcance educativo:</strong> todos los datos, saldos y comprobantes son ficticios. No existe conexión con bancos, backend financiero ni operación con dinero real.</p>
+  <h2>Contenido</h2>
+  <ol>
+    <li>Apertura: justificación, objetivos, alcance y roles.</li>
+    <li>Descripción funcional y arquitectura del proyecto.</li>
+    <li>Plan de adopción y preparación del entorno.</li>
+    <li>Compilación, entrega e instalación del APK.</li>
+    <li>Validación, soporte y aceptación de la apertura.</li>
+  </ol>
+  <p class="footer-note">Fuente editable: docs/src/ADOPCION_DE_APERTURA.html. Las fechas de ejecución, los responsables y las aprobaciones se completan al adoptar el proyecto.</p>
+</section>
+
+<section class="document-page">
+  <div class="brand">1 . ACTA DE APERTURA</div>
+  <h1>Definición del proyecto</h1>
+  <h2>Justificación y objetivo general</h2>
+  <p>Ofrecer un entorno de aprendizaje que permita comprender flujos habituales de banca móvil y desarrollar una aplicación Android con persistencia local, validaciones de negocio y una interfaz adaptable.</p>
+  <h2>Objetivos específicos</h2>
+  <ul>
+    <li>Demostrar acceso con credenciales educativas y biometría opcional.</li>
+    <li>Representar operaciones ficticias y conservarlas después de cerrar la aplicación.</li>
+    <li>Practicar transferencias, pagos, ahorro y lectura de QR con validación previa.</li>
+    <li>Entregar código, APK y documentación reproducible para clases y evaluación.</li>
+  </ul>
+  <h2>Alcance y entregables</h2>
+  <p>Incluye una aplicación Android de un solo módulo, datos de demostración locales, pruebas unitarias, análisis estático, APK de depuración y manuales de instalación, uso, ejecución y adopción.</p>
+  <p>Quedan fuera del alcance las transacciones reales, el alta de clientes bancarios, la aprobación de préstamos, una plataforma iOS, la sincronización entre dispositivos y el despliegue de una banca de producción.</p>
+  <h2>Roles propuestos para la apertura</h2>
+  <table>
+    <tr><th>Rol por asignar</th><th>Responsabilidad</th></tr>
+    <tr><td>Coordinación / docente</td><td>Definir destinatarios, calendario y aceptación de la demostración.</td></tr>
+    <tr><td>Desarrollo</td><td>Mantener código, reglas, persistencia y configuración de compilación.</td></tr>
+    <tr><td>Verificación</td><td>Ejecutar pruebas, lint y recorridos funcionales; registrar incidencias.</td></tr>
+    <tr><td>Documentación / entrega</td><td>Actualizar fuentes, generar PDF y preparar el paquete de entrega.</td></tr>
+    <tr><td>Usuarios piloto</td><td>Instalar, recorrer los flujos y comunicar dificultades de uso.</td></tr>
+  </table>
+  <p class="footer-note">El calendario y el presupuesto no están establecidos en el repositorio. Deben acordarse según el entorno académico y la disponibilidad del equipo.</p>
+</section>
+
+<section class="document-page">
+  <div class="brand">2 . VISIÓN INTEGRAL</div>
+  <h1>Funciones y arquitectura</h1>
+  <table>
+    <tr><th>Área</th><th>Comportamiento de la demostración</th></tr>
+    <tr><td>Acceso</td><td>Credenciales demo y comprobación biométrica de Android, con alternativa por contraseña.</td></tr>
+    <tr><td>Inicio y movimientos</td><td>Saldo, actividad reciente, ahorro y consulta de movimientos con búsqueda y filtros.</td></tr>
+    <tr><td>Transferencias y QR</td><td>Ingreso manual o lectura QR, revisión y confirmación; recepción mediante QR.</td></tr>
+    <tr><td>Pagos</td><td>Servicios y créditos ficticios; calculadora educativa de cuota, intereses y total.</td></tr>
+    <tr><td>Perfil y tarjetas</td><td>Datos ficticios y controles de tarjeta guardados localmente.</td></tr>
+    <tr><td>Configuración</td><td>Tema Sistema/Claro/Oscuro, biometría inicial, saldo visible, versión y restablecimiento confirmado.</td></tr>
+  </table>
+  <h2>Organización técnica</h2>
+  <pre>Interfaz Compose -> NexoViewModel -> NexoRepository -> Room / SQLite
+Preferencias de usuario -> UserPreferencesRepository -> DataStore</pre>
+  <p>La raíz Gradle es <code>banca_movile/android-app</code> y contiene el módulo <code>:app</code>. La navegación se gestiona con estado Compose. Las pantallas se organizan en acceso, inicio, Más, transferencias, QR, perfil, pagos y configuración.</p>
+  <h2>Reglas y persistencia</h2>
+  <ul>
+    <li>Los importes bancarios se almacenan como enteros <code>Long</code> en COP. Las mutaciones de saldo y operaciones usan transacciones Room.</li>
+    <li>Las cuentas de transferencia admiten 6-20 dígitos; el valor permitido es COP 1-5.000.000 y no puede superar el saldo.</li>
+    <li>Los QR aceptados usan <code>nexo://transfer</code> o <code>nexo://receive</code>. Leerlos no confirma una operación.</li>
+    <li>Room usa <code>nexo_demo.db</code>, versión 1; los cambios de esquema requieren una estrategia de migración.</li>
+    <li>DataStore conserva tema, biometría inicial y visibilidad del saldo. Los datos iniciales bancarios se centralizan en <code>domain/DemoData.kt</code>.</li>
+  </ul>
+  <p>La aplicación funciona localmente sin Internet. Conserva el bloqueo de capturas y las copias de seguridad desactivadas. La biometría es un acceso demo, no autenticación bancaria ni cifrado de la base.</p>
+</section>
+
+<section class="document-page">
+  <div class="brand">3 . PLAN DE ADOPCIÓN</div>
+  <h1>Preparar la puesta en marcha</h1>
+  <p>Ruta propuesta: preparación -> verificación técnica -> piloto -> entrega -> seguimiento. Cada fase termina con una evidencia; las fechas se acuerdan durante la apertura.</p>
+  <table>
+    <tr><th>Fase</th><th>Actividad y evidencia esperada</th></tr>
+    <tr><td>Preparación</td><td>Asignar roles, elegir dispositivo y revisar requisitos. Evidencia: entorno disponible y calendario acordado.</td></tr>
+    <tr><td>Verificación técnica</td><td>Sincronizar, probar, analizar y compilar. Evidencia: resultados de Gradle y APK generado.</td></tr>
+    <tr><td>Piloto guiado</td><td>Instalar y recorrer acceso, transferencias, pagos, preferencias y reinicio. Evidencia: lista de resultados e incidencias.</td></tr>
+    <tr><td>Entrega</td><td>Compartir APK y documentación vigente. Evidencia: paquete identificado y aceptación registrada.</td></tr>
+    <tr><td>Seguimiento</td><td>Atender dudas y reproducir fallos. Evidencia: registro de incidencias y correcciones verificadas.</td></tr>
+  </table>
+  <h2>Requisitos para desarrollo</h2>
+  <ul>
+    <li>Android Studio, Android SDK Platform 37 y JDK 17 o superior.</li>
+    <li>Windows y PowerShell para los comandos de esta guía; Gradle Wrapper incluido.</li>
+    <li>Internet en la primera sincronización para descargar dependencias.</li>
+    <li>Microsoft Edge para regenerar los PDF con el script del repositorio.</li>
+  </ul>
+  <h2>Requisitos para usuarios</h2>
+  <p>Teléfono, tableta o emulador con Android 7.0 (API 24) o superior. La biometría es opcional; la cámara se necesita solo para leer QR. Para instalar el APK, Android puede pedir permiso de instalación desde la fuente utilizada.</p>
+  <h2>Preparación en Android Studio</h2>
+  <ol>
+    <li>Selecciona <strong>Open</strong> y abre <code>banca_movile/android-app</code>.</li>
+    <li>Espera la sincronización de Gradle e instala SDK 37 si se solicita.</li>
+    <li>Selecciona el JDK de Gradle en la configuración de Android Studio.</li>
+    <li>Conecta el dispositivo o inicia un emulador; selecciona <strong>app</strong> y pulsa <strong>Run</strong>.</li>
+  </ol>
+  <p class="footer-note">El JDK que ejecuta Gradle debe ser 17 o superior; la compatibilidad Java del código es 11. Son configuraciones distintas.</p>
+</section>
+
+<section class="document-page">
+  <div class="brand">4 . ENTREGA E INSTALACIÓN</div>
+  <h1>Crear y adoptar el APK</h1>
+  <h2>Verificación y generación</h2>
+  <p>Desde PowerShell en <code>banca_movile/android-app</code>, ejecuta:</p>
+  <pre>.\gradlew.bat clean :app:testDebugUnitTest :app:lintDebug :app:generarApkDemo</pre>
+  <p>Para generar únicamente la entrega:</p>
+  <pre>.\gradlew.bat :app:generarApkDemo</pre>
+  <p>Comprueba <code>BUILD SUCCESSFUL</code>. El APK se copia a <code>banca_movile/distribucion/Nexo-Demo.apk</code>; el original queda en <code>app/build/outputs/apk/debug/app-debug.apk</code>. Usa firma de depuración y está destinado a clases y demostraciones.</p>
+  <h2>Documentación que acompaña la entrega</h2>
+  <ul>
+    <li><code>GUIA_INSTALACION_APK.pdf</code>: instalación y solución de problemas.</li>
+    <li><code>MANUAL_USUARIO_NEXO.pdf</code>: funciones y operación educativa.</li>
+    <li><code>MANUAL_APK_EJECUCION_GITHUB.pdf</code>: ejecución, compilación y publicación.</li>
+    <li><code>ADOPCION_DE_APERTURA.pdf</code>: apertura, adopción y aceptación.</li>
+    <li><code>README.md</code> y <code>docs/GUIA_DESARROLLO.md</code>: referencia del proyecto y guía técnica.</li>
+  </ul>
+  <p>Tras modificar las fuentes HTML en <code>docs/src</code>, ejecuta desde la raíz del repositorio:</p>
+  <pre>.\banca_movile\scripts\generar-documentos.ps1</pre>
+  <h2>Instalación y primer acceso</h2>
+  <ol>
+    <li>Transfiere el APK al dispositivo, ábrelo y autoriza la fuente si Android lo solicita.</li>
+    <li>Instala y abre <strong>Nexo Demo</strong>; después desactiva el permiso de instalación desde esa fuente.</li>
+    <li>Entra con <code>demo@nexo.com</code> / <code>Nexo2026</code> o la biometría compatible.</li>
+    <li>Recorre Inicio, Movimientos y Más usando exclusivamente datos ficticios.</li>
+  </ol>
+  <p>Para instalar desde el entorno de desarrollo:</p>
+  <pre>adb install -r ".\app\build\outputs\apk\debug\app-debug.apk"
+adb shell am start -n com.nexo.banca.demo/com.nexo.banca.MainActivity</pre>
+</section>
+
+<section class="document-page acceptance">
+  <div class="brand">5 . VALIDACIÓN Y ACEPTACIÓN</div>
+  <h1>Cerrar la apertura</h1>
+  <p>Registrar el resultado de cada criterio como <strong>pendiente, conforme o incidencia</strong>, junto con fecha, dispositivo y responsable. Esta lista no acredita pruebas ya realizadas.</p>
+  <table>
+    <tr><th>Criterio de aceptación</th><th>Evidencia que debe registrarse</th></tr>
+    <tr><td>Calidad y entrega</td><td>Pruebas y lint sin fallos; APK generado; cuatro PDF legibles y coherentes con la versión entregada.</td></tr>
+    <tr><td>Apertura y acceso</td><td>Arranque desde el icono; acceso demo; cancelación biométrica permite usar contraseña sin bucle.</td></tr>
+    <tr><td>Operaciones</td><td>Transferencia válida actualiza saldo e historial; cuenta o monto inválido se rechaza; pago confirmado se registra.</td></tr>
+    <tr><td>QR y persistencia</td><td>QR válido carga datos para revisión; cerrar y abrir conserva movimientos y preferencias.</td></tr>
+    <tr><td>Navegación y tema</td><td>Accesos específicos abren su sección; regreso Tarjetas -> Perfil -> Configuración; temas y saldo inicial funcionan.</td></tr>
+    <tr><td>Restablecimiento</td><td>Cancelar conserva datos; confirmar restaura datos ficticios y preferencias predeterminadas.</td></tr>
+  </table>
+  <h2>Soporte y contingencias</h2>
+  <p>Registrar pantalla, pasos, resultado esperado y observado, versión y dispositivo. Para problemas de SDK, JDK, Gradle, cámara o instalación, consultar <code>GUIA_DESARROLLO.md</code> y la guía de instalación. No usar capturas como requisito de evidencia porque están bloqueadas.</p>
+  <p>Una firma distinta puede exigir desinstalar y perder los datos locales. Antes del piloto, acordar si se conserva la instalación o se inicia una demostración nueva. Para reiniciar, usar <strong>Configuración -> Restablecer demostración</strong> y confirmar.</p>
+  <h2>Registro de adopción y conformidad</h2>
+  <table>
+    <tr><td>Responsable de coordinación</td><td>________________________________</td></tr>
+    <tr><td>Responsable de verificación</td><td>________________________________</td></tr>
+    <tr><td>Versión / dispositivo / fecha</td><td>________________________________</td></tr>
+    <tr><td>Resultado e incidencias pendientes</td><td>________________________________</td></tr>
+    <tr><td>Decisión y aprobación del equipo</td><td>________________________________</td></tr>
+  </table>
+  <p class="footer-note">La adopción se considera completada cuando el equipo registra los criterios, resuelve o acuerda las incidencias y acepta la entrega educativa. Este documento no convierte la demo en un servicio bancario real.</p>
+</section>
+</body>
+</html>

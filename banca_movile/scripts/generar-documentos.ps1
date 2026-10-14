@@ -15,7 +15,8 @@ if (-not $edge) {
 $documents = @(
     "GUIA_INSTALACION_APK",
     "MANUAL_USUARIO_NEXO",
-    "MANUAL_APK_EJECUCION_GITHUB"
+    "MANUAL_APK_EJECUCION_GITHUB",
+    "ADOPCION_DE_APERTURA"
 )
 $profile = Join-Path $env:TEMP "nexo-pdf-$PID"
 

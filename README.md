@@ -46,8 +46,9 @@ Consulta `docs/GUIA_DESARROLLO.md` para instrucciones detalladas y solucion de p
 - `docs/MANUAL_USUARIO_NEXO.pdf`: utilizar la aplicacion, SQLite y los codigos QR.
 - `docs/MANUAL_APK_EJECUCION_GITHUB.pdf`: ejecutar el proyecto, generar el APK y publicarlo en GitHub.
 - `docs/GUIA_DESARROLLO.md`: preparar el entorno, compilar, probar, instalar y diagnosticar errores.
+- [Adopcion de apertura](docs/ADOPCION_DE_APERTURA.pdf): acta de apertura del proyecto y plan de adopcion, puesta en marcha y aceptacion de Nexo Demo. Fuente editable: `docs/src/ADOPCION_DE_APERTURA.html`.
 
-Toda modificacion visible debe actualizar `README.md`, `docs/GUIA_DESARROLLO.md` y las fuentes de `docs/src`, y despues regenerar los tres PDF desde la raiz:
+Toda modificacion visible debe actualizar `README.md`, `docs/GUIA_DESARROLLO.md` y las fuentes de `docs/src`, y despues regenerar los cuatro PDF desde la raiz:
 
 ```powershell
 .\banca_movile\scripts\generar-documentos.ps1

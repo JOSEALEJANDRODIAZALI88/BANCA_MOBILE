@@ -107,7 +107,9 @@ Las fuentes editables estan en `docs/src`. Desde la raiz del repositorio ejecuta
 .\banca_movile\scripts\generar-documentos.ps1
 ```
 
-El script usa Microsoft Edge en modo headless y reemplaza los tres PDF de `docs`. Revisa los PDF generados antes de entregarlos.
+El script usa Microsoft Edge en modo headless y reemplaza los cuatro PDF de `docs`. Revisa los PDF generados antes de entregarlos.
+
+El documento [Adopcion de apertura](ADOPCION_DE_APERTURA.pdf) integra el acta de apertura y el plan de adopcion de todo el proyecto: objetivos, alcance, arquitectura, roles por asignar, entregables, puesta en marcha y criterios de aceptacion. Su fuente editable es `docs/src/ADOPCION_DE_APERTURA.html`. Las fechas, responsables y aprobaciones deben completarse por el equipo; el documento no declara una aprobacion ni una validacion ya realizada.
 
 ## 7. Instalar con ADB
 
